@@ -1,0 +1,68 @@
+[tool.poetry]
+name = "produtos"
+version = "0.1.0"
+description = ""
+authors = ["bruno coelho"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.92.0"
+uvicorn = "^0.20.0"
+simple-settings = "^1.2.0"
+httpx = "^0.23.3"
+SQLAlchemy = "^1.4.40"
+psycopg2-binary = "^2.9.3"
+asyncpg = "^0.26.0"
+alembic = "^1.11.1"
+mako = "^1.2.4"
+pygments = "^2.15.1"
+markupsafe = "^2.1.2"
+email-validator = "^2.0.0.post2"
+
+[tool.poetry.dev-dependencies]
+pytest-httpx = "^0.21.3"
+aiosqlite = "^0.17.0"
+black = "^22.3.0"
+flake8 = "^3.9.2"
+isort = "^5.10"
+mypy = "^0.910"
+pytest = "^6.2.4"
+pytest-asyncio = "^0.17"
+pytest-cov = "^2.12.1"
+pytest-mock = "^3.7.0"
+pytest-recording = "^0.12.0"
+pyproject-flake8 = "^0.0.1-alpha.2"
+poetry = "^1.1.12"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+skip-string-normalization = true
+line-length = 79
+
+[tool.isort]
+profile = "black"
+line_length = 79
+# Use Vertical Hanging Indent for multi-line imports:
+# https://pycqa.github.io/isort/docs/configuration/multi_line_output_modes.html#3-vertical-hanging-indent
+multi_line_output = 3
+force_grid_wrap = 2
+combine_as_imports = true
+
+[tool.coverage.run]
+omit = ["*/*/tests/*", "*/*/settings/*", "**/tests/*", "**/conftest.py", "**/db.py", "**/base_class.py", "sentry.py"]
+
+[tool.coverage.report]
+fail_under = 80
+
+[tool.mypy]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "1.53.6"
+log_level = "DEBUG"
+asyncio_mode = "auto"
+addopts = "-ra"

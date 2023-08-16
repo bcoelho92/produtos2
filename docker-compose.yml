@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+    postgresql:
+        image: postgres
+        restart: always
+        ports:
+            - 5432:5432
+        environment:
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_USER: postgres
+            POSTGRES_DB: produtos
+        volumes:
+        - ./postgres-keycloak-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-proxy-data:
+    driver: local
+  postgres-keycloak-data:
+    driver: local
