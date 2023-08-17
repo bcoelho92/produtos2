@@ -4,7 +4,7 @@ from sqlalchemy.future import select
 from sqlalchemy import delete
 
 # Usuario
-class userService:
+class UserService:
     async def create_user(name_user:str, email:str):
         async with db.async_session() as session:
             session.add(md.User(name_user=name_user, email=email)) 
@@ -26,5 +26,9 @@ class userService:
             return result.scalar()
     
 # Produto
+class ProductService:
+    pass
 
 # Favoritos
+class FavoriteService:
+    pass

@@ -1,10 +1,5 @@
 from fastapi import FastAPI
-import produtos.models as models_db
-from produtos.routes import router_user, router_favorites, router_products
-from produtos.database import engine
-
-# models.Base.metadata.drop_all(bind=engine)
-# models.Base.metadata.create_all(bind=engine)
+from routes import router_user, router_favorites, router_products
 
 app = FastAPI()
 
