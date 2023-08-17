@@ -5,9 +5,9 @@ from fastapi import APIRouter, HTTPException
 from starlette import responses
 
 from database.schemas import (
-    UserSchema, RequestUser, RequestIdUser,
-    ProductsSchema, RequestProducts, RequestIdProducts,
-    ErrorOutput, StandardOutput, UserListOutput
+    UserSchema, UserListOutput,
+    ProductsSchema, ProductListOutput,
+    ErrorOutput, StandardOutput, 
 )
 from service import UserService, ProductService
 
@@ -48,3 +48,42 @@ async def users_delete(id_user: int):
         raise HTTPException(408, detail=str(error))
 
 # PRODUCT ROUTERS
+@router_products.post('/create', description='create product!', response_model=StandardOutput, responses={400: {'model': ErrorOutput}})
+async def create_product(imput: ProductsSchema):
+    try:
+        await ProductService.create_product(title=imput.title, marca=imput.marca, description=imput.description)
+        return StandardOutput(message='Produto cadastrado com sucesso!')
+    except Exception as error:
+        raise HTTPException(408, detail=str(error))
+
+@router_products.get('/list', response_model=List[ProductListOutput], responses={400: {'model': ErrorOutput}})
+async def product_list():
+    try:
+        return await ProductService.list_product()
+    except Exception as error:
+        raise HTTPException(408, detail=str(error))
+
+@router_products.get('/list/{id_product}', response_model=ProductListOutput, responses={400: {'model': ErrorOutput}})
+async def product_list_id(id_product: int):
+    try:
+        return await ProductService.list_product_by_id(id_product)
+    except Exception as error:
+        raise HTTPException(408, detail=str(error))
+    
+@router_products.delete('/delete/{id_product}', response_model=StandardOutput)
+async def product_delete(id_product: int):
+    try:
+        await ProductService.delete_product(id_product)
+        return StandardOutput(message=f'Producto com ID:{id_product}, deletado com sucesso!')
+    except Exception as error:
+        raise HTTPException(408, detail=str(error))
+    
+# PRODUCT ROUTERS
+@router_favorites.post('/add')
+async def add_favorites():
+    pass
+
+@router_favorites.delete('/remove')
+async def renove_favorites():
+    pass
+
