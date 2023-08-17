@@ -27,8 +27,25 @@ class UserService:
     
 # Produto
 class ProductService:
-    pass
+    async def create_product(title:str, marca:str, description:str):
+        async with db.async_session() as session:
+            session.add(md.Product(title=title, marca=marca, description=description))
+            await session.commit()
+    
+    async def delete_product(id_product: int):
+        async with db.async_session() as session:
+            await session.execute(delete(md.Product).where(md.Product.id_product==id_product))
+            await session.commit()
 
+    async def list_product():
+        async with db.async_session() as session:
+            result = await session.execute(select(md.Product))
+            return result.scalars().all()
+        
+    async def list_product_by_id(id_product: int):
+        async with db.async_session() as session:
+            result = await session.execute(select(md.Product).where(md.Product.id_product==id_product))
+            return result.scalar()
 # Favoritos
 class FavoriteService:
     pass
