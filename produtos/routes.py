@@ -1,7 +1,7 @@
 from asyncio import gather
 from typing import List
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, status
 from starlette import responses
 
 from database.schemas import (
@@ -16,7 +16,13 @@ router_favorites = APIRouter()
 router_products = APIRouter()
 
 # USER ROUTERS
-@router_user.post('/create', description='create user!', response_model=StandardOutput, responses={400: {'model': ErrorOutput}})
+@router_user.post(
+        '/create',
+        status_code=status.HTTP_201_CREATED,
+        description='create user!',
+        response_model=StandardOutput,
+        responses={400: {'model': ErrorOutput}}
+)
 async def user_create(user_input: UserSchema):
     try:
         await UserService.create_user(name_user=user_input.name_user, email=user_input.email)
@@ -48,7 +54,13 @@ async def users_delete(id_user: int):
         raise HTTPException(408, detail=str(error))
 
 # PRODUCT ROUTERS
-@router_products.post('/create', description='create product!', response_model=StandardOutput, responses={400: {'model': ErrorOutput}})
+@router_products.post(
+        '/create',
+        status_code=status.HTTP_201_CREATED,
+        description='create product!',
+        response_model=StandardOutput,
+        responses={400: {'model': ErrorOutput}}
+)
 async def create_product(imput: ProductsSchema):
     try:
         await ProductService.create_product(title=imput.title, marca=imput.marca, description=imput.description)
