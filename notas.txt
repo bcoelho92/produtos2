@@ -23,8 +23,3 @@ Criar tabelas
 cd diretorio
 python3 create_db.py
 
-
-__________________________
-
-test unitario inserir clientes
-validar e-mail

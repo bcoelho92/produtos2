@@ -30,6 +30,17 @@ class ProductListOutput(BaseModel):
     
     class Config:
         orm_mode = True
+    
+class FavoritesSchema(BaseModel):
+    id_user: int
+    id_product: int
+
+class FavoritesstOutput(BaseModel):
+    id_favorite: int
+    id_user: int
+    id_product: int
+    class Config:
+        orm_mode = True
 
 class ErrorOutput(BaseModel):
     detail: str

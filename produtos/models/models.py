@@ -20,19 +20,18 @@ class Product(Base):
     
     id_product = sa.Column(sa.Integer, primary_key=True, nullable=False, index=True, autoincrement=True)
     created_at = sa.Column(sa.DateTime, index=True, default=datetime.now, nullable=False)
-    title = sa.Column(sa.String, nullable=False, index=True, unique=True)
-    marca = sa.Column(sa.String, nullable=False, index=True, unique=True)
-    description = sa.Column(sa.String(30), nullable=False, index=True, unique=True)
+    title = sa.Column(sa.String, nullable=False, index=True, unique=False)
+    marca = sa.Column(sa.String, nullable=False, index=True, unique=False)
+    description = sa.Column(sa.String(30), nullable=False, index=True, unique=False)
 
     __table_args__ = (sa.PrimaryKeyConstraint(id_product, name="pk_products"),)
 
 class ProductFavorite(Base):
     __tablename__: str = "favorites"
 
-    id_favorite = sa.Column(sa.Integer, primary_key=True, nullable=False, index=True, autoincrement=True)
     created_at = sa.Column(sa.DateTime, index=True, default=datetime.now, nullable=False)
+    id_favorite = sa.Column(sa.Integer, primary_key=True, nullable=False, index=True, autoincrement=True)
     id_user = sa.Column(sa.Integer, sa.ForeignKey('users.id_user')) # tabela.campo
     id_product = sa.Column(sa.Integer, sa.ForeignKey('products.id_product'))
   
-
     __table_args__ = (sa.PrimaryKeyConstraint(id_favorite, name="pk_favorites"),)

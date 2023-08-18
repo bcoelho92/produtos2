@@ -42,10 +42,28 @@ class ProductService:
             result = await session.execute(select(md.Product))
             return result.scalars().all()
         
-    async def list_product_by_id(id_product: int):
+    async def list_product_by_id(id_user: int):
         async with db.async_session() as session:
-            result = await session.execute(select(md.Product).where(md.Product.id_product==id_product))
+            result = await session.execute(select(md.Product).where(md.Product.id_product==id_user))
             return result.scalar()
 # Favoritos
 class FavoriteService:
-    pass
+    async def add_favorite(id_user: int, id_product: int):
+        async with db.async_session() as session:
+            session.add(md.ProductFavorite(id_user=id_user, id_product=id_product ))
+            await session.commit()
+    
+    async def list_favorites():
+        async with db.async_session() as session:
+            result = await session.execute(select(md.ProductFavorite))
+            return result.scalars().all()
+    
+    async def list_favorites_by_id(id_user: int):
+        async with db.async_session() as session:
+            result = await session.execute(select(md.ProductFavorite).where(md.ProductFavorite.id_user==id_user))
+            return result.scalars().all()
+
+    async def remove_favorite (id_user: int, id_product: int):
+        async with db.async_session() as session:
+            await session.execute(delete(md.ProductFavorite).where(md.ProductFavorite.id_user==id_user, md.ProductFavorite.id_product==id_product))
+            await session.commit()
