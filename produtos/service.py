@@ -63,7 +63,7 @@ class FavoriteService:
             result = await session.execute(select(md.ProductFavorite).where(md.ProductFavorite.id_user==id_user))
             return result.scalars().all()
 
-    async def remove_favorite (id_user: int, id_product: int):
+    async def delete_favorite (id_user: int, id_product: int):
         async with db.async_session() as session:
             await session.execute(delete(md.ProductFavorite).where(md.ProductFavorite.id_user==id_user, md.ProductFavorite.id_product==id_product))
             await session.commit()

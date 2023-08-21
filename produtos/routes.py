@@ -122,9 +122,9 @@ async def favorite_list_by_id(id_user: int):
         raise HTTPException(402, detail=str(error))
 
 @router_favorites.delete('/remove/{id_user}/{id_product}')
-async def renove_favorite_by_id(id_user: int, id_product: int):
+async def renove_favorite(id_user: int, id_product: int):
     try:
-        await ProductService.delete_product(id_user, id_product)
+        await FavoriteService.delete_favorite(id_user, id_product)
         return Response(status_code=status.HTTP_204_NO_CONTENT) 
     except Exception as error:
         raise HTTPException(204, detail=str(error))
