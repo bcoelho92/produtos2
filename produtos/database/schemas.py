@@ -35,6 +35,9 @@ class FavoritesSchema(BaseModel):
     id_user: int
     id_product: int
 
+class FavoriteSchema(BaseModel):
+    id_product: int
+
 class FavoritesstOutput(BaseModel):
     id_favorite: int
     id_user: int

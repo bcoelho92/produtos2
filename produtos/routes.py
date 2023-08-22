@@ -7,7 +7,7 @@ from starlette import responses
 from database.schemas import (
     UserSchema, UserListOutput,
     ProductsSchema, ProductListOutput,
-    FavoritesSchema, FavoritesstOutput,
+    FavoritesSchema, FavoritesstOutput, FavoriteSchema,
     ErrorOutput, StandardOutput, 
 )
 from service import UserService, ProductService, FavoriteService
@@ -91,7 +91,7 @@ async def product_delete(id_product: int):
     except Exception as error:
         raise HTTPException(204, detail=str(error))
     
-# PRODUCT ROUTERS
+# FAVORITE ROUTERS
 @router_favorites.post(
         '/add',
         description='Add favorites!',
@@ -121,10 +121,10 @@ async def favorite_list_by_id(id_user: int):
     except Exception as error:
         raise HTTPException(402, detail=str(error))
 
-@router_favorites.delete('/remove/{id_user}/{id_product}')
-async def renove_favorite(id_user: int, id_product: int):
+@router_favorites.delete('/remove/{id_user}')
+async def renove_favorite(id_user: int, favor_imput:FavoriteSchema):
     try:
-        await FavoriteService.delete_favorite(id_user, id_product)
-        return Response(status_code=status.HTTP_204_NO_CONTENT) 
+        await FavoriteService.delete_favorite(id_user, favor_imput.id_product)
+        return StandardOutput(message='favorito deletado com sucesso!') 
     except Exception as error:
         raise HTTPException(204, detail=str(error))
