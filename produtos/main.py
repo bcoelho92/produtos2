@@ -5,7 +5,7 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "API favoritos!"}
 
 app.include_router(router_user, prefix="/users", tags=["Users"])
 app.include_router(router_products, prefix="/products", tags=["Products"])

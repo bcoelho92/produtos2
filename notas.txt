@@ -74,5 +74,14 @@ Parametrize - utilizar varias entradas para um mesmo test
 - @mark.usuario
 - def test_user_create_validavao_email_unico(name_user, email):
 -     pass
-
 """
+___________________________________
+FIXTURES - ENTRAR EM UM CONTEXTO - ferramenta ou recurso que precisa ser execultada antes ou depois do test
+
+4 passo do test
+
+- setup - dado - FIXTURES
+- exercise - quando
+- verify - entao
+- teardown - desmonta tudo - FIXTURES
+
