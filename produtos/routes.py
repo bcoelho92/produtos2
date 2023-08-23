@@ -46,13 +46,13 @@ async def user_list_id(id_user: int):
         raise HTTPException(400, detail=str(error))
 
 
-@router_user.delete('/delete/{id_user}', response_model=StandardOutput)
+@router_user.delete('/delete/{id_user}', response_model=StandardOutput, status_code=200)
 async def users_delete(id_user: int):
     try:
         await UserService.delete_user(id_user)
         return StandardOutput(message=f'User id: {id_user}, deletado com sucesso!')
     except Exception as error:
-        raise HTTPException(204, detail=str(error))
+        raise HTTPException(400, detail=str(error))
 
 # PRODUCT ROUTERS
 @router_products.post(

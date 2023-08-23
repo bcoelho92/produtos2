@@ -1,5 +1,5 @@
 from typing import Optional, Generic, TypeVar
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from pydantic.generics import GenericModel
 from typing import List
 
@@ -7,7 +7,7 @@ T = TypeVar('T')
 
 class UserSchema(BaseModel):
     name_user: Optional[str] = None
-    email: str = None
+    email: EmailStr  = None
 
 class UserListOutput(BaseModel):
     id_user: int

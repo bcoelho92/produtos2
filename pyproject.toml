@@ -19,6 +19,7 @@ mako = "^1.2.4"
 pygments = "^2.15.1"
 markupsafe = "^2.1.2"
 email-validator = "^2.0.0.post2"
+typing = "3.7.4.3"
 
 [tool.poetry.dev-dependencies]
 pytest-httpx = "^0.21.3"
