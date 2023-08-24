@@ -6,12 +6,12 @@ from typing import List
 T = TypeVar('T')
 
 class UserSchema(BaseModel):
-    name_user: Optional[str] = None
+    name_user: str | None = None
     email: EmailStr  = None
 
 class UserListOutput(BaseModel):
     id_user: int
-    name_user: str
+    name_user: str 
     email: str
     
     class Config:
@@ -20,7 +20,7 @@ class UserListOutput(BaseModel):
 class ProductsSchema(BaseModel):
     title: str = None
     marca: str = None
-    description: str = None
+    description: Optional[str] | None = None
 
 class ProductListOutput(BaseModel):
     id_product: int
