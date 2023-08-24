@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routes import router_user, router_favorites, router_products
+from produtos.routes import router_user, router_favorites, router_products
 
 app = FastAPI()
 

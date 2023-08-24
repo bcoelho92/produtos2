@@ -4,6 +4,11 @@ from typing import AsyncGenerator
 import pytest
 from fastapi import FastAPI
 
+import os
+import sys
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 @pytest.fixture(autouse=True)
 async def client()-> FastAPI:
     app = FastAPI()

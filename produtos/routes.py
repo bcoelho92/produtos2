@@ -4,13 +4,13 @@ from typing import List
 from fastapi import APIRouter, HTTPException, status, Response
 from starlette import responses
 
-from database.schemas import (
+from produtos.database.schemas import (
     UserSchema, UserListOutput,
     ProductsSchema, ProductListOutput,
     FavoritesSchema, FavoritesstOutput, FavoriteSchema,
     ErrorOutput, StandardOutput, 
 )
-from service import UserService, ProductService, FavoriteService
+from produtos.service import UserService, ProductService, FavoriteService
 
 router_user = APIRouter()
 router_favorites = APIRouter()
