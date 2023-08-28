@@ -13,10 +13,10 @@ async def test_get_root():
     
 
 @pytest.mark.asyncio
-def test_user_create_correto():
+async def test_user_create_correto():
     response = client.post(
-        "/create",
-        json={"name_user": "Carlos", "email": "carlos@test.com"},
+        '/users/create/',
+        json={"name_user": "test", "email": "test@test.com"},
     )
     assert response.status_code == 201
     assert response.json() == {
@@ -24,10 +24,10 @@ def test_user_create_correto():
     } 
 
 # @pytest.mark.asyncio
-# def test_user_create_validavao_email():
+# async def test_user_create_validavao_email():
 #     response = client.post(
-#         "/items/",
-#         json={"name_user": "Carlos", "email": "carlos123test.com"},
+#         "/users/create/",
+#         json={"name_user": "test", "email": "testaaatest.com"},
 #     )
 #     assert response.status_code == 422
 #     assert response.json() == {
@@ -43,13 +43,13 @@ def test_user_create_correto():
 #     ]
 #     }
 
-# @pytest.mark.asyncio
-# def test_user_delete():
-#     response = client.post(
-#         "/items/",
-#         headers={"email": "carlos@test.com"}
-#     )
-#     assert response.status_code == 204
-#     assert response.json() == {
-#      "message": "User deletado com sucesso!"
-#     }
+@pytest.mark.asyncio
+async def test_user_delete():
+    response = client.post(
+        url="/users/{email}",
+        headers={'Accept': '*/*', 'email': 'test@test.com'},
+    )
+    assert response.status_code == 200
+    assert response.json() == {
+     "message": "User deletado com sucesso!"
+    }
