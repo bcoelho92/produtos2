@@ -1,22 +1,7 @@
-from typing import (
-    Any,
-    Optional,
-)
-
-
-from sqlalchemy import (
-    and_,
-    asc,
-    desc,
-    func,
-    select,
-)
 from .models import models as md
 from .database import db_session as db
 from sqlalchemy.future import select
 from sqlalchemy import delete
-from fastapi import APIRouter, HTTPException, status, Response
-
 
 class Commands:
     async def delete_user(id_user: int):
