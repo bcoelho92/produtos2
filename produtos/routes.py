@@ -43,18 +43,7 @@ async def user_list_id(id_user: int):
     try:
         return await UserService.list_user_by_id(id_user)
     except Exception as error:
-        raise HTTPException(400, detail=str(error))
-
-
-# @router_user.delete(
-#         '/{email}',
-#         status_code=status.HTTP_204_NO_CONTENT,
-#         description="Delete a user",)
-# async def users_delete(email: str):
-#     try:
-#         await UserService.delete_user(email)
-#     except Exception as error:
-#         raise HTTPException(400, detail=str(error))
+        raise HTTPException(408, detail=str(error))
 
 @router_user.delete('/{id_user}', description="Delete a user",)
 async def users_delete(id_user: int):

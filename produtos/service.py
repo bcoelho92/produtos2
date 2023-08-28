@@ -1,5 +1,6 @@
 from .models import models as md
 from .database import db_session as db
+from .database.schemas import  UserListOutput
 from sqlalchemy.future import select
 from sqlalchemy import delete
 from produtos.query import Queries
@@ -7,6 +8,9 @@ from produtos.commands import Commands
 from fastapi import APIRouter, HTTPException, status, Response
 # Usuario
 class UserService:
+    def __init__(self): 
+        self.queries = Queries()
+
     async def create_user(name_user:str, email:str):
         async with db.async_session() as session:
             session.add(md.User(name_user=name_user, email=email)) 
@@ -17,11 +21,11 @@ class UserService:
             result = await session.execute(select(md.User))
             return result.scalars().all()
         
-    async def list_user_by_id(email: str):
+    async def list_user_by_id(id_user: int):
         async with db.async_session() as session:
-            result = await session.execute(select(md.User).where(md.User.email==email))
+            result = await session.execute(select(md.User).where(md.User.id_user==id_user))
             return result.scalar()
-
+        
     async def delete_user_id(id_user: int):
         list_user = await Queries.list_user_by_id(id_user)
         if list_user is None:
@@ -47,7 +51,7 @@ class ProductService:
         
     async def list_product_by_id(id_user: int):
         async with db.async_session() as session:
-            result = await session.execute(select(md.Product).where(md.Product.id_product==id_user))
+            result = await session.execute(select(md.Product).where(md.Product.id_product==id_product))
             return result.scalar()
         
 # Favoritos

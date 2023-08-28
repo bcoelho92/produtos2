@@ -1,5 +1,5 @@
 from typing import Optional, Generic, TypeVar
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Extra
 from pydantic.generics import GenericModel
 from typing import List
 
@@ -11,11 +11,13 @@ class UserSchema(BaseModel):
 
 class UserListOutput(BaseModel):
     id_user: int
-    name_user: str 
-    email: str
+    name_user: str = None
+
+    email: str 
     
     class Config:
         orm_mode = True
+        extra = Extra.ignore
 
 class ProductsSchema(BaseModel):
     title: str = None
