@@ -1,17 +1,13 @@
 from .models import models as md
 from .database import db_session as db
-from .database.schemas import  UserListOutput
 from sqlalchemy.future import select
 from sqlalchemy import delete
 from produtos.query import Queries
 from produtos.commands import Commands
-from fastapi import APIRouter, HTTPException, status, Response
+from fastapi import HTTPException, status
 
 # Usuario
 class UserService:
-    def __init__(self): 
-        self.queries = Queries()
-
     async def create_user(name_user:str, email:str):
         async with db.async_session() as session:
             session.add(md.User(name_user=name_user, email=email)) 
@@ -33,7 +29,7 @@ class UserService:
             raise HTTPException(status_code= status.HTTP_400_BAD_REQUEST, detail= "User não encontrado")
         await Commands.delete_user(id_user)
 
-    async def update_user_by_id(id_user: int, name_user: str, email: str):
+    async def update_user_by_id(id_user: int, name_user: str):
         async with db.async_session() as session:
             usuario = select(md.User).where(md.User.id_user == id_user)
             result = await session.execute(usuario)
@@ -41,8 +37,7 @@ class UserService:
 
             if user:
                 user.name_user = name_user
-                user.email = email
-
+                
                 await session.commit()
                 raise HTTPException(status_code= status.HTTP_202_ACCEPTED, detail= "User atualizado!")
             else:
@@ -72,19 +67,19 @@ class ProductService:
     
     async def update_product_by_id(id_product: int, title:str, marca:str, description:str):
         async with db.async_session() as session:
-                    product = select(md.Product).where(md.Product.id_product == id_product)
-                    result = await session.execute(product)
-                    product = result.scalar()
+            product = select(md.Product).where(md.Product.id_product == id_product)
+            result = await session.execute(product)
+            product = result.scalar()
 
-                    if product:
-                        product.title = title
-                        product.marca  = marca
-                        product.description = description
+            if product:
+                product.title = title
+                product.marca  = marca
+                product.description = description
 
-                        await session.commit()
-                        raise HTTPException(status_code= status.HTTP_202_ACCEPTED, detail= "Produto atualizado!")
-                    else:
-                        raise HTTPException(status_code= status.HTTP_400_BAD_REQUEST, detail= "Produto não encontrado")
+                await session.commit()
+                raise HTTPException(status_code= status.HTTP_202_ACCEPTED, detail= "Produto atualizado!")
+            else:
+                raise HTTPException(status_code= status.HTTP_400_BAD_REQUEST, detail= "Produto não encontrado")
 
 # Favoritos
 class FavoriteService:

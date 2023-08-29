@@ -12,7 +12,6 @@ class UserSchema(BaseModel):
 class UserListOutput(BaseModel):
     id_user: int
     name_user: str = None
-
     email: str 
     
     class Config:

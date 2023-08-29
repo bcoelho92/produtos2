@@ -1,13 +1,11 @@
-from asyncio import gather
 from typing import List
 
 from fastapi import APIRouter, HTTPException, status, Response
-from starlette import responses
 
 from produtos.database.schemas import (
     UserSchema, UserListOutput,
     ProductsSchema, ProductListOutput,
-    FavoritesSchema, FavoritesstOutput, FavoriteSchema,
+    FavoritesSchema, FavoritesstOutput,
     ErrorOutput, StandardOutput, 
 )
 from produtos.service import UserService, ProductService, FavoriteService
@@ -47,7 +45,7 @@ async def user_list_id(id_user: int):
 
 @router_user.put('/update/{id_user}')
 async def user_update_id(id_user: int, user_input: UserSchema): 
-    return await UserService.update_user_by_id(id_user, name_user=user_input.name_user, email=user_input.email)
+    return await UserService.update_user_by_id(id_user, name_user=user_input.name_user)
 
 
 @router_user.delete('/{id_user}', description="Delete a user",)
@@ -117,7 +115,6 @@ async def favorites_list_al():
         return await FavoriteService.list_favorites()
     except Exception as error:
         raise HTTPException(408, detail=str(error))
-
 
 @router_favorites.get('/list/{id_user}', responses={402: {'model': ErrorOutput}})
 async def favorite_list_by_id(id_user: int):
