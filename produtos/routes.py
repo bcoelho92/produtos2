@@ -45,6 +45,11 @@ async def user_list_id(id_user: int):
     except Exception as error:
         raise HTTPException(408, detail=str(error))
 
+@router_user.put('/update/{id_user}')
+async def user_update_id(id_user: int, user_input: UserSchema): 
+    return await UserService.update_user_by_id(id_user, name_user=user_input.name_user, email=user_input.email)
+
+
 @router_user.delete('/{id_user}', description="Delete a user",)
 async def users_delete(id_user: int):
         await UserService.delete_user_id(id_user)
@@ -78,6 +83,10 @@ async def product_list_id(id_product: int):
         return await ProductService.list_product_by_id(id_product)
     except Exception as error:
         raise HTTPException(408, detail=str(error))
+
+@router_products.put('/update/{id_product}')
+async def product_update_id(id_product: int, imput: ProductsSchema):
+    return await ProductService.update_product_by_id(id_product, title=imput.title, marca=imput.marca, description=imput.description)
     
 @router_products.delete('/delete/{id_product}', response_model=StandardOutput)
 async def product_delete(id_product: int):
