@@ -96,13 +96,13 @@ async def product_delete(id_product: int):
     
 # FAVORITE ROUTERS
 @router_favorites.post(
-        '/add',
+        '/add/{id_user}/{id_product}',
         description='Add favorites!',
         response_model=StandardOutput,
         responses={400: {'model': ErrorOutput}}
 )
-async def add_favorites(favor_imput:FavoritesSchema):
-        await FavoriteService.add_favorite(id_user=favor_imput.id_user, id_product=favor_imput.id_product)
+async def add_favorites(id_user: int, id_product: int ):
+        await FavoriteService.add_favorite(id_user=id_user, id_product=id_product)
         
 
 @router_favorites.get('/list', response_model=List[FavoritesstOutput], responses={400: {'model': ErrorOutput}})
