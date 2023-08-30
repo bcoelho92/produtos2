@@ -1,7 +1,7 @@
 from .models import models as md
 from .database import db_session as db
 from sqlalchemy.future import select
-from sqlalchemy import delete
+from sqlalchemy import delete, func
 from produtos.query import Queries
 from produtos.commands import Commands
 from fastapi import HTTPException, status
@@ -15,7 +15,7 @@ class UserService:
     
     async def list_user():
         async with db.async_session() as session:
-            result = await session.execute(select(md.User).order_by(md.User.created_at).limit(10))
+            result = await session.execute(select(md.User).order_by(md.User.created_at).limit(20))
             return result.scalars().all()
         
     async def list_user_by_id(id_user: int):
@@ -57,7 +57,7 @@ class ProductService:
 
     async def list_product():
         async with db.async_session() as session:
-            result = await session.execute(select(md.Product).order_by(md.Product.created_at).limit(10))
+            result = await session.execute(select(md.Product).order_by(md.Product.created_at).limit(20))
             return result.scalars().all()
         
     async def list_product_by_id(id_product: int):
@@ -85,12 +85,19 @@ class ProductService:
 class FavoriteService:
     async def add_favorite(id_user: int, id_product: int):
         async with db.async_session() as session:
-            session.add(md.ProductFavorite(id_user=id_user, id_product=id_product ))
-            await session.commit()
+            result = select(func.count(md.ProductFavorite.id_user))
+            cont_regist = await session.execute(result)
+            registros = cont_regist.scalar()
+            if registros < 5:
+                session.add(md.ProductFavorite(id_user=id_user, id_product=id_product ))
+                await session.commit()
+                raise HTTPException(status_code= status.HTTP_202_ACCEPTED, detail= "Favorito adicionado com sucesso!")
+            else:
+                raise HTTPException(status_code= status.HTTP_400_BAD_REQUEST, detail= "Cota de favoritos atingida")
     
     async def list_favorites():
         async with db.async_session() as session:
-            result = await session.execute(select(md.ProductFavorite).order_by(md.ProductFavorite.created_at).limit(10))
+            result = await session.execute(select(md.ProductFavorite).order_by(md.ProductFavorite.created_at).limit(20))
             return result.scalars().all()
     
     async def list_favorites_by_id(id_user: int):

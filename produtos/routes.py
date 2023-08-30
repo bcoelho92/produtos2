@@ -102,12 +102,8 @@ async def product_delete(id_product: int):
         responses={400: {'model': ErrorOutput}}
 )
 async def add_favorites(favor_imput:FavoritesSchema):
-    try:
         await FavoriteService.add_favorite(id_user=favor_imput.id_user, id_product=favor_imput.id_product)
-        return StandardOutput(message='favorito add com sucesso!') 
-    except Exception as error:
-        raise HTTPException(400, detail=str(error))
-
+        
 
 @router_favorites.get('/list', response_model=List[FavoritesstOutput], responses={400: {'model': ErrorOutput}})
 async def favorites_list_al():
