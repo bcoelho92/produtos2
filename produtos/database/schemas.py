@@ -9,6 +9,9 @@ class UserSchema(BaseModel):
     name_user: str | None = None
     email: EmailStr  = None
 
+class UserSchemaM(BaseModel):
+    name_user: str | None = None
+
 class UserListOutput(BaseModel):
     id_user: int
     name_user: str = None
