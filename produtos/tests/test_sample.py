@@ -2,8 +2,10 @@ import pytest
 from fastapi.testclient import TestClient
 from fastapi import status, FastAPI
 from produtos.main import app
+import time
 
 client = TestClient(app)
+steep = 3
 
 @pytest.mark.asyncio
 async def test_get_root():
@@ -23,33 +25,32 @@ async def test_user_create_correto():
         "message":"Cadastrado com sucesso!"
     } 
 
-# @pytest.mark.asyncio # erro 400 verificar url
-# async def test_user_create_validavao_email():
-#     response = client.post(
-#         "/users/create/",
-#         json={"name_user": "test", "email": "testaaatest.com"},
-#     )
-#     assert response.status_code == 422
-#     assert response.json() == {
-#     "detail": [
-#         {
-#         "loc": [
-#             "body",
-#             "email"
-#         ],
-#         "msg": "value is not a valid email address",
-#         "type": "value_error.email"
-#         }
-#     ]
-#     }
+time.sleep(steep)
 
-# @pytest.mark.asyncio # erro 400 verificar url
-# async def test_user_delete():
-#     response = client.delete(
-#         url="/users/{email}",
-#         headers={"email": "test@test.com"},
-#     )
-#     assert response.status_code == 204
-#     assert response.json() == {
-#      "message": "favorito deletado com sucesso!"
-#     }
+@pytest.mark.asyncio
+async def test_user_delete():
+    email = "test@test.com"
+    response = client.delete(
+        url=f"/users/{email}"
+    )
+    assert response.status_code == 204
+
+@pytest.mark.asyncio
+async def test_user_create_validacao_email():
+    response = client.post(
+        "/users/create/",
+        json={"name_user": "test", "email": "testaaatest.com"},
+    )
+    assert response.status_code == 422
+    assert response.json() == {
+    "detail": [
+        {
+        "loc": [
+            "body",
+            "email"
+        ],
+        "msg": "value is not a valid email address",
+        "type": "value_error.email"
+        }
+    ]
+    }
