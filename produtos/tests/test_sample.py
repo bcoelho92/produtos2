@@ -5,7 +5,7 @@ from produtos.main import app
 import time
 
 client = TestClient(app)
-steep = 3
+tm = 3
 
 @pytest.mark.asyncio
 async def test_get_root():
@@ -43,6 +43,8 @@ async def test_user_create_validacao_email():
         }
     ]
     }
+
+time.sleep(tm)
 
 @pytest.mark.asyncio
 async def test_user_delete():
