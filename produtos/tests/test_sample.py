@@ -13,7 +13,6 @@ async def test_get_root():
     assert response.status_code == 200
     assert response.json() == {"message": "API favoritos!"}
     
-
 @pytest.mark.asyncio
 async def test_user_create_correto():
     response = client.post(
@@ -24,16 +23,6 @@ async def test_user_create_correto():
     assert response.json() == {
         "message":"Cadastrado com sucesso!"
     } 
-
-time.sleep(steep)
-
-@pytest.mark.asyncio
-async def test_user_delete():
-    email = "test@test.com"
-    response = client.delete(
-        url=f"/users/{email}"
-    )
-    assert response.status_code == 204
 
 @pytest.mark.asyncio
 async def test_user_create_validacao_email():
@@ -54,3 +43,11 @@ async def test_user_create_validacao_email():
         }
     ]
     }
+
+@pytest.mark.asyncio
+async def test_user_delete():
+    email = "test@test.com"
+    response = client.delete(
+        url=f"/users/{email}"
+    )
+    assert response.status_code == 204
