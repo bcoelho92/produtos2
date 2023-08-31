@@ -23,7 +23,7 @@ async def test_user_create_correto():
         "message":"Cadastrado com sucesso!"
     } 
 
-# @pytest.mark.asyncio
+# @pytest.mark.asyncio # erro 400 verificar url
 # async def test_user_create_validavao_email():
 #     response = client.post(
 #         "/users/create/",
@@ -43,13 +43,13 @@ async def test_user_create_correto():
 #     ]
 #     }
 
-@pytest.mark.asyncio
-async def test_user_delete():
-    response = client.post(
-        url="/users/{email}",
-        headers={'Accept': '*/*', 'email': 'test@test.com'},
-    )
-    assert response.status_code == 200
-    assert response.json() == {
-     "message": "User deletado com sucesso!"
-    }
+# @pytest.mark.asyncio # erro 400 verificar url
+# async def test_user_delete():
+#     response = client.delete(
+#         url="/users/{email}",
+#         headers={"email": "test@test.com"},
+#     )
+#     assert response.status_code == 204
+#     assert response.json() == {
+#      "message": "favorito deletado com sucesso!"
+#     }

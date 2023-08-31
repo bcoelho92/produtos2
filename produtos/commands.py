@@ -4,9 +4,9 @@ from sqlalchemy.future import select
 from sqlalchemy import delete
 
 class Commands:
-    async def delete_user(id_user: int):
+    async def delete_user(email: str):
         async with db.async_session() as session:
-            await session.execute(delete(md.User).where(md.User.id_user==id_user))
+            await session.execute(delete(md.User).where(md.User.email==email))
             await session.commit()
     
     async def delete_produto(id_produto: int):

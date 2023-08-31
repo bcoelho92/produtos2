@@ -1,7 +1,7 @@
 from .models import models as md
 from .database import db_session as db
 from sqlalchemy.future import select
-from sqlalchemy import delete, func
+from sqlalchemy import delete, func, and_
 from produtos.query import Queries
 from produtos.commands import Commands
 from fastapi import HTTPException, status
@@ -23,11 +23,11 @@ class UserService:
             result = await session.execute(select(md.User).where(md.User.id_user==id_user))
             return result.scalar()
         
-    async def delete_user_id(id_user: int):
-        list_user = await Queries.list_user_by_id(id_user)
+    async def delete_user_id(email: str):
+        list_user = await Queries.get_user_by_id(email)
         if list_user is None:
             raise HTTPException(status_code= status.HTTP_400_BAD_REQUEST, detail= "User não encontrado")
-        await Commands.delete_user(id_user)
+        await Commands.delete_user(email)
 
     async def update_user_by_id(id_user: int, name_user: str):
         async with db.async_session() as session:
@@ -84,8 +84,9 @@ class ProductService:
 # Favoritos
 class FavoriteService:
     async def add_favorite(id_user: int, id_product: int):
-        async with db.async_session() as session:
-            result = select(func.count(md.ProductFavorite.id_user))
+        async with db.async_session() as session:     
+            # result = select(func.count(md.ProductFavorite)).where (md.ProductFavorite.id_user == id_user)
+            result = select(func.count(md.ProductFavorite.id_favorite)).where(md.ProductFavorite.id_user == id_user)
             cont_regist = await session.execute(result)
             registros = cont_regist.scalar()
             if registros < 5:
@@ -98,8 +99,11 @@ class FavoriteService:
     async def list_favorites():
         async with db.async_session() as session:
             result = await session.execute(select(md.ProductFavorite).order_by(md.ProductFavorite.created_at).limit(20))
-            return result.scalars().all()
-    
+            if result:  
+                return result.scalars().all()
+            elif result is None:
+                raise HTTPException(status_code= status.HTTP_400_BAD_REQUEST, message= "Nenhum favorito encontrado")
+                
     async def list_favorites_by_id(id_user: int):
         async with db.async_session() as session:
             result = await session.execute(select(md.ProductFavorite).where(md.ProductFavorite.id_user==id_user))

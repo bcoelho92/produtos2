@@ -3,7 +3,7 @@ from typing import List
 from fastapi import APIRouter, HTTPException, status, Response
 
 from produtos.database.schemas import (
-    UserSchema, UserListOutput,
+    UserSchema, UserListOutput, UserSchemaM,
     ProductsSchema, ProductListOutput,
     FavoritesSchema, FavoritesstOutput,
     ErrorOutput, StandardOutput, 
@@ -44,13 +44,13 @@ async def user_list_id(id_user: int):
         raise HTTPException(408, detail=str(error))
 
 @router_user.put('/update/{id_user}')
-async def user_update_id(id_user: int, user_input: UserSchema): 
+async def user_update_id(id_user: int, user_input: UserSchemaM): 
     return await UserService.update_user_by_id(id_user, name_user=user_input.name_user)
 
 
-@router_user.delete('/{id_user}', description="Delete a user",)
-async def users_delete(id_user: int):
-        await UserService.delete_user_id(id_user)
+@router_user.delete('/{email}', description="Delete a user",)
+async def users_delete(email: str):
+        await UserService.delete_user_id(email)
         return Response(status_code=204)
 
 # PRODUCT ROUTERS
@@ -103,14 +103,11 @@ async def product_delete(id_product: int):
 )
 async def add_favorites(id_user: int, id_product: int ):
         await FavoriteService.add_favorite(id_user=id_user, id_product=id_product)
-        
 
-@router_favorites.get('/list', response_model=List[FavoritesstOutput], responses={400: {'model': ErrorOutput}})
+@router_favorites.get('/list')
 async def favorites_list_al():
-    try:
-        return await FavoriteService.list_favorites()
-    except Exception as error:
-        raise HTTPException(408, detail=str(error))
+    return await FavoriteService.list_favorites()
+    
 
 @router_favorites.get('/list/{id_user}', responses={402: {'model': ErrorOutput}})
 async def favorite_list_by_id(id_user: int):
