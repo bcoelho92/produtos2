@@ -12,7 +12,7 @@ from produtos.service import UserService, ProductService, FavoriteService
 
 router_user = APIRouter()
 router_favorites = APIRouter()
-router_products = APIRouter()
+router_products = APIRouter()                
 
 # USER ROUTERS
 @router_user.post(
@@ -48,7 +48,7 @@ async def user_update_id(id_user: int, user_input: UserSchemaM):
     return await UserService.update_user_by_id(id_user, name_user=user_input.name_user)
 
 
-@router_user.delete('/{email}', description="Delete a user",)
+@router_user.delete('/{email}', description="Delete a user")
 async def users_delete(email: str):
         await UserService.delete_user_id(email)
         return Response(status_code=204)
@@ -85,14 +85,12 @@ async def product_list_id(id_product: int):
 @router_products.put('/update/{id_product}')
 async def product_update_id(id_product: int, imput: ProductsSchema):
     return await ProductService.update_product_by_id(id_product, title=imput.title, marca=imput.marca, description=imput.description)
+
     
-@router_products.delete('/delete/{id_product}', response_model=StandardOutput)
+@router_products.delete('/{id_product}', description="Delete product")
 async def product_delete(id_product: int):
-    try:
         await ProductService.delete_product(id_product)
-        return Response(status_code=status.HTTP_204_NO_CONTENT) 
-    except Exception as error:
-        raise HTTPException(204, detail=str(error))
+        return Response(status_code=204)
     
 # FAVORITE ROUTERS
 @router_favorites.post(
@@ -123,3 +121,8 @@ async def renove_favorite(id_user: int, id_product: int):
         return StandardOutput(message='favorito deletado com sucesso!') 
     except Exception as error:
         raise HTTPException(204, detail=str(error))
+
+# @router_favorites.delete('/{id_user}/{id_product}', description="Delete favorite")
+# async def delete_favorites(id_user: int, id_product: int):
+#         await FavoriteService.delete_favorite(id_user, id_product)
+#         return Response(status_code=204)

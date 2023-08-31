@@ -14,7 +14,7 @@ class Commands:
             await session.execute(delete(md.Product).where(md.Product.id_product==id_produto))
             await session.commit()
 
-    async def delete_favorite (id_user: int, id_product: int):
-        async with db.async_session() as session:
-            await session.execute(delete(md.ProductFavorite).where(md.ProductFavorite.id_user==id_user, md.ProductFavorite.id_product==id_product))
-            await session.commit()
+    # async def delete_favorite (id_user: int, id_product: int):
+    #     async with db.async_session() as session:
+    #         await session.execute(delete(md.ProductFavorite).where(md.ProductFavorite.id_user==id_user, md.ProductFavorite.id_product==id_product))
+    #         await session.commit()

@@ -24,7 +24,7 @@ class UserService:
             return result.scalar()
         
     async def delete_user_id(email: str):
-        list_user = await Queries.get_user_by_id(email)
+        list_user = await Queries.get_user_by_email(email)
         if list_user is None:
             raise HTTPException(status_code= status.HTTP_400_BAD_REQUEST, detail= "User não encontrado")
         await Commands.delete_user(email)
@@ -51,9 +51,10 @@ class ProductService:
             await session.commit()
     
     async def delete_product(id_product: int):
-        async with db.async_session() as session:
-            await session.execute(delete(md.Product).where(md.Product.id_product==id_product))
-            await session.commit()
+        list_product = await Queries.get_product_by_id(id_product)
+        if list_product is None:
+            raise HTTPException(status_code= status.HTTP_400_BAD_REQUEST, detail= "Produto não encontrado")
+        await Commands.delete_produto(id_product)
 
     async def list_product():
         async with db.async_session() as session:
@@ -109,7 +110,13 @@ class FavoriteService:
             result = await session.execute(select(md.ProductFavorite).where(md.ProductFavorite.id_user==id_user))
             return result.scalars().all()
 
-    async def delete_favorite (id_user: int, id_product: int):
+    async def delete_favorite(id_user: int, id_product: int):
         async with db.async_session() as session:
             await session.execute(delete(md.ProductFavorite).where(md.ProductFavorite.id_user==id_user, md.ProductFavorite.id_product==id_product))
             await session.commit()
+    
+    # async def delete_favorite(id_user: int, id_product: int):
+    #     list_product = await Queries.get_favorite_by_ids(id_user, id_product)
+    #     if list_product is None:
+    #         raise HTTPException(status_code= status.HTTP_400_BAD_REQUEST, detail= "Favorito não encontrado")
+    #     await Commands.delete_favorite(id_user, id_product)
