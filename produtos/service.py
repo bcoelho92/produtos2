@@ -8,6 +8,9 @@ from fastapi import HTTPException, status
 
 # Usuario
 class UserService:
+    def __init__(self) -> None:
+        self.queries = Queries()
+
     async def create_user(name_user:str, email:str):
         async with db.async_session() as session:
             session.add(md.User(name_user=name_user, email=email)) 
@@ -45,13 +48,16 @@ class UserService:
     
 # Produto
 class ProductService:
+    def __init__(self) -> None:
+        self.queries = Queries()
+
     async def create_product(title:str, marca:str, description:str):
         async with db.async_session() as session:
             session.add(md.Product(title=title, marca=marca, description=description))
             await session.commit()
     
-    async def delete_product(id_product: int):
-        list_product = await Queries.get_product_by_id(id_product)
+    async def delete_product(self, id_product: int):
+        list_product = await self.queries.get_product_by_id(id_product)
         if list_product is None:
             raise HTTPException(status_code= status.HTTP_400_BAD_REQUEST, detail= "Produto não encontrado")
         await Commands.delete_produto(id_product)
@@ -84,6 +90,9 @@ class ProductService:
 
 # Favoritos
 class FavoriteService:
+    def __init__(self) -> None:
+        self.queries = Queries()
+
     async def add_favorite(id_user: int, id_product: int):
         async with db.async_session() as session:     
             # result = select(func.count(md.ProductFavorite)).where (md.ProductFavorite.id_user == id_user)

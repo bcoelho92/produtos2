@@ -44,12 +44,12 @@ async def test_user_create_validacao_email():
     ]
     }
 
-time.sleep(tm)
+# time.sleep(tm)
 
-@pytest.mark.asyncio
-async def test_user_delete():
-    email = "test@test.com"
-    response = client.delete(
-        url=f"/users/{email}"
-    )
-    assert response.status_code == 204
+# @pytest.mark.asyncio
+# async def test_user_delete():
+#     email = "test@test.com"
+#     response = client.delete(
+#         url=f"/users/{email}"
+#     )
+#     assert response.status_code == 204

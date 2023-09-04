@@ -85,3 +85,13 @@ FIXTURES - ENTRAR EM UM CONTEXTO - ferramenta ou recurso que precisa ser execult
 - verify - entao
 - teardown - desmonta tudo - FIXTURES
 
+_________________________________________ 
+
+Alembic é uma lib gerenciadora de versões do banco de dados.
+
+- Criar a estrutura
+alembic init alembic
+
+- Criar versão 
+alembic revision -m "create_first"
+
