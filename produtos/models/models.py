@@ -9,7 +9,7 @@ class User(Base):
 
     created_at = sa.Column(sa.DateTime, index=True, default=datetime.now, nullable=False)
     id_user = sa.Column(sa.Integer, primary_key=True, nullable=False, index=True, autoincrement=True)
-    name_user = sa.Column(sa.String(30), nullable=False, index=True, unique=False)
+    name_user = sa.Column(sa.String(30), nullable=False, index=False, unique=False)
     email = sa.Column(sa.String, nullable=False, index=True, unique=True)
     favorites = orm.relationship('ProductFavorite', backref='users', lazy='subquery')
 
@@ -20,9 +20,9 @@ class Product(Base):
 
     created_at = sa.Column(sa.DateTime, index=True, default=datetime.now, nullable=False)
     id_product = sa.Column(sa.Integer, primary_key=True, nullable=False, index=True, autoincrement=True)
-    title = sa.Column(sa.String, nullable=False, index=True, unique=False)
-    marca = sa.Column(sa.String, nullable=False, index=True, unique=False)
-    description = sa.Column(sa.String(30), nullable=False, index=True, unique=False)
+    title = sa.Column(sa.String, nullable=False, index=False, unique=False)
+    marca = sa.Column(sa.String, nullable=False, index=False, unique=False)
+    description = sa.Column(sa.String(30), nullable=False, index=False, unique=False)
 
     __table_args__ = (sa.PrimaryKeyConstraint(id_product, name="pk_products"),)
 
