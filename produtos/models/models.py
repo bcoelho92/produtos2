@@ -1,37 +1,73 @@
-import sqlalchemy.orm as orm
-import sqlalchemy as sa
-from datetime import datetime
+from sqlalchemy import (
+    Column,
+    DateTime,
+    Integer,
+    PrimaryKeyConstraint,
+    String,
+    ForeignKey,
+)
+from sqlalchemy.orm import relationship
 
-Base = orm.declarative_base()
+from datetime import datetime
+from .base_class import Base
+
 
 class User(Base):
-    __tablename__: str ="users"
+    __tablename__: str = "users"
 
-    created_at = sa.Column(sa.DateTime, index=True, default=datetime.now, nullable=False)
-    id_user = sa.Column(sa.Integer, primary_key=True, nullable=False, index=True, autoincrement=True)
-    name_user = sa.Column(sa.String(30), nullable=False, index=False, unique=False)
-    email = sa.Column(sa.String, nullable=False, index=True, unique=True)
-    favorites = orm.relationship('ProductFavorite', backref='users', lazy='subquery')
+    created_at = Column(
+        DateTime, index=True, default=datetime.now, nullable=False
+    )
+    id_user = Column(
+        Integer,
+        primary_key=True,
+        nullable=False,
+        index=True,
+        autoincrement=True,
+    )
+    name_user = Column(String(30), nullable=False, index=False, unique=False)
+    email = Column(String, nullable=False, index=True, unique=True)
+    favorites = relationship(
+        'ProductFavorite', backref='users', lazy='subquery'
+    )
 
-    __table_args__ = (sa.PrimaryKeyConstraint(id_user, name="pk_users"),)
+    __table_args__ = (PrimaryKeyConstraint(id_user, name="pk_users"),)
+
 
 class Product(Base):
     __tablename__: str = "products"
 
-    created_at = sa.Column(sa.DateTime, index=True, default=datetime.now, nullable=False)
-    id_product = sa.Column(sa.Integer, primary_key=True, nullable=False, index=True, autoincrement=True)
-    title = sa.Column(sa.String, nullable=False, index=False, unique=False)
-    marca = sa.Column(sa.String, nullable=False, index=False, unique=False)
-    description = sa.Column(sa.String(30), nullable=False, index=False, unique=False)
+    created_at = Column(
+        DateTime, index=True, default=datetime.now, nullable=False
+    )
+    id_product = Column(
+        Integer,
+        primary_key=True,
+        nullable=False,
+        index=True,
+        autoincrement=True,
+    )
+    title = Column(String, nullable=False, index=False, unique=False)
+    marca = Column(String, nullable=False, index=False, unique=False)
+    description = Column(String(30), nullable=False, index=False, unique=False)
 
-    __table_args__ = (sa.PrimaryKeyConstraint(id_product, name="pk_products"),)
+    __table_args__ = (PrimaryKeyConstraint(id_product, name="pk_products"),)
+
 
 class ProductFavorite(Base):
     __tablename__: str = "favorites"
 
-    created_at = sa.Column(sa.DateTime, index=True, default=datetime.now, nullable=False)
-    id_favorite = sa.Column(sa.Integer, primary_key=True, nullable=False, index=True, autoincrement=True)
-    id_user = sa.Column(sa.Integer, sa.ForeignKey('users.id_user')) # tabela.campo
-    id_product = sa.Column(sa.Integer, sa.ForeignKey('products.id_product'))
-  
-    __table_args__ = (sa.PrimaryKeyConstraint(id_favorite, name="pk_favorites"),)
+    created_at = Column(
+        DateTime, index=True, default=datetime.now, nullable=False
+    )
+    id_favorite = Column(
+        Integer,
+        primary_key=True,
+        nullable=False,
+        index=True,
+        autoincrement=True,
+    )
+    id_user = Column(Integer, ForeignKey('users.id_user'))  # tabela.campo
+    id_product = Column(Integer, ForeignKey('products.id_product'))
+
+    __table_args__ = (PrimaryKeyConstraint(id_favorite, name="pk_favorites"),)
