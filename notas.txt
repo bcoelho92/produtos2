@@ -95,3 +95,9 @@ alembic init alembic
 - Criar versão 
 alembic revision -m "create_first"
 
+- Atualizar versão 
+alembic upgrade head
+
+- Downgrad versão   
+alembic downgrade -1
+
