@@ -93,7 +93,7 @@ Alembic é uma lib gerenciadora de versões do banco de dados.
 alembic init alembic
 
 - Criar versão 
-alembic revision -m "create_first"
+alembic revision --autogenerate -m "update colum"
 
 - Atualizar versão 
 alembic upgrade head
