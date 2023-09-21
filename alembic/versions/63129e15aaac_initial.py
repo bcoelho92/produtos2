@@ -30,7 +30,7 @@ def upgrade() -> None:
     )
     op.create_index(op.f('ix_products_created_at'), 'products', ['created_at'], unique=False)
     op.create_index(op.f('ix_products_id_product'), 'products', ['id_product'], unique=False)
-    op.create_table('users',
+    op.create_table('users',ç
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.Column('id_user', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name_user', sa.String(length=30), nullable=False),
