@@ -82,7 +82,7 @@ async def product_list_id(id_product: int):
     except Exception as error:
         raise HTTPException(408, detail=str(error))
 
-@router_products.put('/update/{id_product}')
+@router_products.patch('/update/{id_product}')
 async def product_update_id(id_product: int, imput: ProductsSchema):
     return await ProductService.update_product_by_id(id_product, title=imput.title, marca=imput.marca, description=imput.description)
 
