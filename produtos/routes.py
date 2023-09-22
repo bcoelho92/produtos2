@@ -43,7 +43,7 @@ async def user_list_id(id_user: int):
     except Exception as error:
         raise HTTPException(408, detail=str(error))
 
-@router_user.put('/update/{id_user}')
+@router_user.patch('/update/{id_user}')
 async def user_update_id(id_user: int, user_input: UserSchemaM): 
     return await UserService.update_user_by_id(id_user, name_user=user_input.name_user)
 
