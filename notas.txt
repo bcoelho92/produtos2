@@ -48,7 +48,6 @@ Comandos para rodar pytest
 - pytest --pdb / debugar quando falha 
 - python3 -m pytest 
 
-
 - pytest --junitxml report.xml / salva o report dos tests 
 - pytest -v --junitxml report.xml / variação
 
