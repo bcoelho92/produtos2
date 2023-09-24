@@ -37,9 +37,9 @@ async def user_list():
         raise HTTPException(400, detail=str(error))
     
 @router_user.get('/list/{id_user}', response_model=UserListOutput, responses={400: {'model': ErrorOutput}})
-async def user_list_id(id_user: int):
+async def user_get_id(id_user: int):
     try:
-        return await UserService.list_user_by_id(id_user)
+        return await UserService.get_user_by_id(id_user)
     except Exception as error:
         raise HTTPException(408, detail=str(error))
 
@@ -76,9 +76,9 @@ async def product_list():
         raise HTTPException(408, detail=str(error))
 
 @router_products.get('/list/{id_product}', response_model=ProductListOutput, responses={400: {'model': ErrorOutput}})
-async def product_list_id(id_product: int):
+async def product_get_id(id_product: int):
     try:
-        return await ProductService.list_product_by_id(id_product)
+        return await ProductService.get_product_by_id(id_product)
     except Exception as error:
         raise HTTPException(408, detail=str(error))
 
@@ -108,9 +108,9 @@ async def favorites_list_al():
     
 
 @router_favorites.get('/list/{id_user}', responses={402: {'model': ErrorOutput}})
-async def favorite_list_by_id(id_user: int):
+async def favorite_get_by_id(id_user: int):
     try:
-        return await FavoriteService.list_favorites_by_id(id_user)
+        return await FavoriteService.get_favorites_by_id(id_user)
     except Exception as error:
         raise HTTPException(402, detail=str(error))
 
