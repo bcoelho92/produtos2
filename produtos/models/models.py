@@ -50,9 +50,8 @@ class Product(Base):
         index=True,
         autoincrement=True,
     )
-    title = Column(String, nullable=False, index=False, unique=False)
+    title = Column(String, nullable=False, index=False, unique=True)
     marca = Column(String, nullable=False, index=False, unique=False)
-    comentario = Column(String(10), nullable=False, index=False, unique=False)
     description = Column(String(30), nullable=False, index=False, unique=False)
 
     __table_args__ = (PrimaryKeyConstraint(id_product, name="pk_products"),)
