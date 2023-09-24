@@ -21,7 +21,7 @@ class UserService:
             result = await session.execute(select(md.User).order_by(md.User.created_at).limit(20))
             return result.scalars().all()
         
-    async def list_user_by_id(id_user: int):
+    async def get_user_by_id(id_user: int):
         async with db.async_session() as session:
             result = await session.execute(select(md.User).where(md.User.id_user==id_user))
             return result.scalar()
@@ -67,7 +67,7 @@ class ProductService:
             result = await session.execute(select(md.Product).order_by(md.Product.created_at).limit(20))
             return result.scalars().all()
         
-    async def list_product_by_id(id_product: int):
+    async def get_product_by_id(id_product: int):
         async with db.async_session() as session:
             result = await session.execute(select(md.Product).where(md.Product.id_product==id_product))
             return result.scalar()
@@ -114,7 +114,7 @@ class FavoriteService:
             elif result is None:
                 raise HTTPException(status_code= status.HTTP_400_BAD_REQUEST, message= "Nenhum favorito encontrado")
                 
-    async def list_favorites_by_id(id_user: int):
+    async def get_favorites_by_id(id_user: int):
         async with db.async_session() as session:
             result = await session.execute(select(md.ProductFavorite).where(md.ProductFavorite.id_user==id_user))
             return result.scalars().all()
