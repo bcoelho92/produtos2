@@ -26,6 +26,11 @@ class Queries:
             result = await session.execute(select(md.Product).where(md.Product.id_product==id_product))
             return result.scalar()
 
+    async def get_product_by_title(titulo: str):
+            async with db.async_session() as session:
+                result = await session.execute(select(md.Product).where(md.Product.title==titulo))
+                return result.scalar()
+
     # async def get_favorite_by_ids(id_user: int, id_product: int):
     #     async with db.async_session() as session:
     #         result = await session.execute(select(md.ProductFavorite).where(md.ProductFavorite.id_user==id_user, md.ProductFavorite.id_product==id_product))
