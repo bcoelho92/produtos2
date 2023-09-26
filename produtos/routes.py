@@ -18,7 +18,7 @@ router_products = APIRouter()
 
 # USER ROUTERS
 @router_user.post(
-        '/create',
+        '/',
         status_code=status.HTTP_201_CREATED,
         description='create user!',
         response_model=StandardOutput,
@@ -42,7 +42,7 @@ async def user_get_id(id_user: int):
     except Exception as error:
         raise HTTPException(408, detail=str(error))
 
-@router_user.patch('/update/{id_user}')
+@router_user.patch('/{id_user}')
 async def user_update_id(id_user: int, user_input: UserSchemaM): 
     return await UserService.update_user_by_id(id_user, name_user=user_input.name_user)
 
@@ -53,7 +53,7 @@ async def users_delete(email: str):
 
 # PRODUCT ROUTERS
 @router_products.post(
-        '/create',
+        '/',
         status_code=status.HTTP_201_CREATED,
         description='create product!',
         response_model=StandardOutput,
@@ -80,7 +80,7 @@ async def product_get_id(id_product: int):
     except Exception as error:
         raise HTTPException(408, detail=str(error))
 
-@router_products.patch('/update/{id_product}')
+@router_products.patch('/{id_product}')
 async def product_update_id(id_product: int, imput: ProductsSchema):
     return await ProductService.update_product_by_id(id_product, title=imput.title, marca=imput.marca, description=imput.description)
 
@@ -100,7 +100,7 @@ async def product_delete(id_product: int):
 async def add_favorites(id_user: int, id_product: int ):
         await FavoriteService.add_favorite(id_user=id_user, id_product=id_product)
 
-@router_favorites.get('/list')
+@router_favorites.get('/')
 async def favorites_list_al():
     return await FavoriteService.list_favorites()
 
