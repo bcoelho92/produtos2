@@ -10,6 +10,8 @@ from produtos.database.schemas import (
 )
 from produtos.service import UserService, ProductService, FavoriteService
 
+product_service= ProductService()
+
 router_user = APIRouter()
 router_favorites = APIRouter()
 router_products = APIRouter()                
@@ -29,14 +31,11 @@ async def user_create(user_input: UserSchema):
     except Exception as error:
         raise HTTPException(400, detail=str(error))
 
-@router_user.get('/list', response_model=List[UserListOutput], responses={400: {'model': ErrorOutput}})
+@router_user.get('/', response_model=List[UserListOutput])
 async def user_list():
-    try:
-        return await UserService.list_user()
-    except Exception as error:
-        raise HTTPException(400, detail=str(error))
+    return await UserService.list_user()
     
-@router_user.get('/list/{id_user}', response_model=UserListOutput, responses={400: {'model': ErrorOutput}})
+@router_user.get('/{id_user}', response_model=UserListOutput, responses={400: {'model': ErrorOutput}})
 async def user_get_id(id_user: int):
     try:
         return await UserService.get_user_by_id(id_user)
@@ -46,7 +45,6 @@ async def user_get_id(id_user: int):
 @router_user.patch('/update/{id_user}')
 async def user_update_id(id_user: int, user_input: UserSchemaM): 
     return await UserService.update_user_by_id(id_user, name_user=user_input.name_user)
-
 
 @router_user.delete('/{email}', description="Delete a user")
 async def users_delete(email: str):
@@ -75,7 +73,7 @@ async def product_list():
     except Exception as error:
         raise HTTPException(408, detail=str(error))
 
-@router_products.get('/list/{id_product}', response_model=ProductListOutput, responses={400: {'model': ErrorOutput}})
+@router_products.get('/{id_product}', response_model=ProductListOutput, responses={400: {'model': ErrorOutput}})
 async def product_get_id(id_product: int):
     try:
         return await ProductService.get_product_by_id(id_product)
@@ -94,7 +92,7 @@ async def product_delete(id_product: int):
     
 # FAVORITE ROUTERS
 @router_favorites.post(
-        '/add/{id_user}/{id_product}',
+        '/{id_user}/{id_product}',
         description='Add favorites!',
         response_model=StandardOutput,
         responses={400: {'model': ErrorOutput}}
@@ -105,9 +103,8 @@ async def add_favorites(id_user: int, id_product: int ):
 @router_favorites.get('/list')
 async def favorites_list_al():
     return await FavoriteService.list_favorites()
-    
 
-@router_favorites.get('/list/{id_user}', responses={402: {'model': ErrorOutput}})
+@router_favorites.get('/{id_user}', responses={402: {'model': ErrorOutput}})
 async def favorite_get_by_id(id_user: int):
     try:
         return await FavoriteService.get_favorites_by_id(id_user)
@@ -121,8 +118,3 @@ async def renove_favorite(id_user: int, id_product: int):
         return StandardOutput(message='favorito deletado com sucesso!') 
     except Exception as error:
         raise HTTPException(204, detail=str(error))
-
-# @router_favorites.delete('/{id_user}/{id_product}', description="Delete favorite")
-# async def delete_favorites(id_user: int, id_product: int):
-#         await FavoriteService.delete_favorite(id_user, id_product)
-#         return Response(status_code=204)

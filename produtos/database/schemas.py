@@ -14,7 +14,7 @@ class UserSchemaM(BaseModel):
 
 class UserListOutput(BaseModel):
     id_user: int
-    name_user: str = None
+    name_user: str
     email: str 
     
     class Config:
@@ -25,6 +25,10 @@ class ProductsSchema(BaseModel):
     title: str = None
     marca: str = None
     description: Optional[str] | None = None
+    
+    class Config:
+        orm_mode = True
+        extra = Extra.ignore
 
 class ProductListOutput(BaseModel):
     id_product: int

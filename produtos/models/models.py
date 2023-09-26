@@ -18,9 +18,6 @@ class User(Base):
     created_at = Column(
         DateTime, index=True, default=datetime.now, nullable=False
     )
-    updated_at = Column(
-        DateTime, index=True, default=datetime.now, nullable=False
-    )
     id_user = Column(
         Integer,
         primary_key=True,
