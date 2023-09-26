@@ -66,7 +66,7 @@ async def create_product(imput: ProductsSchema):
     except Exception as error:
         raise HTTPException(408, detail=str(error))
 
-@router_products.get('/list', response_model=List[ProductListOutput], responses={400: {'model': ErrorOutput}})
+@router_products.get('/', response_model=List[ProductListOutput], responses={400: {'model': ErrorOutput}})
 async def product_list():
     try:
         return await ProductService.list_product()
